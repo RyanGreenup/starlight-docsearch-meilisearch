@@ -1,9 +1,8 @@
 {
-  "name": "starlight-docsearch-typesense-docs",
+  "name": "starlight-docsearch-meilisearch-docs",
   "version": "0.0.2",
   "license": "MIT",
-  "description": "Integrate Typesense search into Starlight",
-  "author": "typesense",
+  "description": "Documentation site for starlight-docsearch-meilisearch.",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -11,23 +10,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "scrape": "docker run -it --env-file=./.env -e \"CONFIG=$(cat docsearch.config.json | jq -r tostring)\" typesense/docsearch-scraper:latest"
+    "scrape": "docker run -t --rm --network=host -e MEILISEARCH_HOST_URL='http://localhost:7700' -e MEILISEARCH_API_KEY='masterKey' -v $(pwd)/docsearch.config.json:/docs-scraper/config.json getmeili/docs-scraper:latest pipenv run ./docs_scraper config.json"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.36.0",
     "astro": "^5.14.4",
     "sharp": "^0.34.4",
-    "starlight-docsearch-typesense": "workspace:*"
+    "starlight-docsearch-meilisearch": "workspace:*"
   },
   "engines": {
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
   },
-  "private": true,
-  "homepage": "https://github.com/typesense/starlight-docsearch-typesense",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/typesense/starlight-docsearch-typesense.git",
-    "directory": "docs"
-  },
-  "bugs": "https://github.com/typesense/starlight-docsearch-typesense/issues"
+  "private": true
 }

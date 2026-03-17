@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { docsLoader, i18nLoader } from '@astrojs/starlight/loaders';
 import { docsSchema, i18nSchema } from '@astrojs/starlight/schema';
-import { docSearchI18nSchema } from 'starlight-docsearch-typesense/schema';
+import { docSearchI18nSchema } from 'starlight-docsearch-meilisearch/schema';
 
 export const collections = {
   docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),

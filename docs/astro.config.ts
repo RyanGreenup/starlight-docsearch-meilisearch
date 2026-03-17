@@ -1,11 +1,11 @@
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
-import starlightDocSearchTypesense from 'starlight-docsearch-typesense';
+import starlightDocSearchMeilisearch from 'starlight-docsearch-meilisearch';
 
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'Starlight DocSearch Typesense',
+      title: 'Starlight DocSearch Meilisearch',
       defaultLocale: 'root', // optional
       locales: {
         root: {
@@ -22,7 +22,7 @@ export default defineConfig({
           'https://github.com/typesense/starlight-docsearch-typesense/edit/master/docs/',
       },
       plugins: [
-        starlightDocSearchTypesense({
+        starlightDocSearchMeilisearch({
           clientOptionsModule: './src/config/docsearch.ts',
         }),
       ],

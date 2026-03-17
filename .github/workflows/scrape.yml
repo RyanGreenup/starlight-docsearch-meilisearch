@@ -1,4 +1,4 @@
-name: typesense-docsearch-scraper
+name: meilisearch-docsearch-scraper
 
 on:
   push:
@@ -15,18 +15,16 @@ concurrency:
 
 jobs:
   scrape:
-    name: Scrape documentation and update Typesense
+    name: Scrape documentation and update Meilisearch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Run DocSearch Scraper
-        uses: celsiusnarhwal/typesense-scraper@v2
-        with:
-          api-key: ${{ secrets.TYPESENSE_API_KEY }}
-          host: ${{ secrets.TYPESENSE_HOST }}
-          port: ${{ secrets.TYPESENSE_PORT }}
-          protocol: ${{ secrets.TYPESENSE_PROTOCOL }}
-
-          config: docs/docsearch.config.json
+      - name: Run Meilisearch Docs Scraper
+        run: |
+          docker run -t --rm --network=host \
+            -e MEILISEARCH_HOST_URL='${{ secrets.MEILISEARCH_HOST_URL }}' \
+            -e MEILISEARCH_API_KEY='${{ secrets.MEILISEARCH_API_KEY }}' \
+            -v ${{ github.workspace }}/docs/docsearch.config.json:/docs-scraper/config.json \
+            getmeili/docs-scraper:latest pipenv run ./docs_scraper config.json

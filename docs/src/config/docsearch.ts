@@ -1,26 +1,7 @@
-import type { DocSearchClientOptions } from 'starlight-docsearch-typesense';
+import type { DocSearchClientOptions } from 'starlight-docsearch-meilisearch';
 
 export default {
-  typesenseCollectionName: 'starlight_docsearch_typesense_docs',
-  typesenseServerConfig: {
-    nodes: import.meta.env.PUBLIC_TYPESENSE_URLS
-      ? import.meta.env.PUBLIC_TYPESENSE_URLS.split(',').map((url: string) => ({
-          url,
-        }))
-      : [
-          {
-            url: 'http://localhost:8108',
-          },
-        ],
-
-    nearestNode: {
-      url:
-        import.meta.env.PUBLIC_TYPESENSE_NEAREST_NODE_URL ||
-        'http://localhost:8108',
-    },
-    apiKey: import.meta.env.PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY || 'xyz',
-  },
-  getMissingResultsUrl({ query }) {
-    return `https://github.com/typesense/typesense-docsearch.js/issues/new?title=${query}`;
-  },
+  host: import.meta.env.PUBLIC_MEILISEARCH_HOST || 'http://localhost:7700',
+  apiKey: import.meta.env.PUBLIC_MEILISEARCH_API_KEY || 'masterKey',
+  indexUid: 'docs',
 } satisfies DocSearchClientOptions;

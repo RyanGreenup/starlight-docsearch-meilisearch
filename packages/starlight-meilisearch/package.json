@@ -1,0 +1,35 @@
+{
+  "name": "starlight-docsearch-meilisearch",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "A Starlight plugin that adds DocSearch powered by Meilisearch for fast, typo-tolerant documentation search.",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./Search.astro": "./Search.astro",
+    "./schema": "./schema.ts"
+  },
+  "files": [
+    "index.ts",
+    "Search.astro",
+    "schema.ts",
+    "variables.css",
+    "virtual.d.ts"
+  ],
+  "dependencies": {
+    "meilisearch-docsearch": "^0.8.0"
+  },
+  "devDependencies": {
+    "@astrojs/starlight": "^0.36.0",
+    "astro": "^5.14.4"
+  },
+  "peerDependencies": {
+    "@astrojs/starlight": ">=0.36"
+  },
+  "engines": {
+    "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

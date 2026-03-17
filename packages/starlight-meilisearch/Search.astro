@@ -1,13 +1,13 @@
 ---
 /// <reference types="../../node_modules/@astrojs/starlight/locals.d.ts" />
 
-import 'typesense-docsearch-css/dist/modal.css';
-import type docsearch from 'typesense-docsearch.js';
+import 'meilisearch-docsearch/css';
+import type { DocSearchOptions } from 'meilisearch-docsearch';
 import './variables.css';
 
 type DocSearchTranslationProps = Pick<
-  Parameters<typeof docsearch>[0],
-  'placeholder' | 'translations'
+  DocSearchOptions,
+  'translations'
 >;
 
 const pick = (keyStart: string) =>
@@ -18,18 +18,14 @@ const pick = (keyStart: string) =>
   );
 
 const docsearchTranslations: DocSearchTranslationProps = {
-  placeholder: Astro.locals.t('search.label'),
   translations: {
     button: {
       buttonText: Astro.locals.t('search.label'),
       buttonAriaLabel: Astro.locals.t('search.label'),
     },
     modal: {
-      searchBox: pick('docsearch.searchBox.'),
-      startScreen: pick('docsearch.startScreen.'),
-      errorScreen: pick('docsearch.errorScreen.'),
-      footer: pick('docsearch.footer.'),
-      noResultsScreen: pick('docsearch.noResultsScreen.'),
+      ...pick('docsearch.searchBox.'),
+      ...pick('docsearch.footer.'),
     },
   },
 };
@@ -133,16 +129,14 @@ const docsearchTranslations: DocSearchTranslationProps = {
 
 <script>
   import config from 'virtual:starlight/docsearch-config';
-  import type typesenseDocsearch from 'typesense-docsearch.js';
+  import type { DocSearchOptions } from 'meilisearch-docsearch';
 
-  class StarlightDocSearchTypesense extends HTMLElement {
+  class StarlightDocSearchMeilisearch extends HTMLElement {
     constructor() {
       super();
       window.addEventListener('DOMContentLoaded', async () => {
-        const { default: docsearch } = (await import(
-          'typesense-docsearch.js/dist/umd'
-        )) as { default: typeof typesenseDocsearch };
-        const options = { ...config, container: 'sl-doc-search' };
+        const { default: docsearch } = await import('meilisearch-docsearch');
+        const options: DocSearchOptions = { ...config, container: this };
         try {
           const translations = JSON.parse(this.dataset.translations || '{}');
           Object.assign(options, translations);
@@ -151,5 +145,5 @@ const docsearchTranslations: DocSearchTranslationProps = {
       });
     }
   }
-  customElements.define('sl-doc-search', StarlightDocSearchTypesense);
+  customElements.define('sl-doc-search', StarlightDocSearchMeilisearch);
 </script>
